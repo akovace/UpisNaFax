@@ -6,7 +6,7 @@ class VrstaSmjera(models.Model):
     naziv_smjera = models.CharField(max_length=200)
     kvota = models.IntegerField()
     def __str__(self):
-        return '%s' % (self.naziv_smjera)
+        return self.naziv_smjera
 
 class Prijavnica(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -26,7 +26,7 @@ class Prijavnica(models.Model):
 
     datum_kriranja = models.DateTimeField('date published')
     def __str__(self):
-        return '%s' % (self.student)
+        return self.student
 
 class Predmeti(models.Model):
     naziv_predmeta = models.CharField(max_length=200)
@@ -34,7 +34,7 @@ class Predmeti(models.Model):
     ECTS = models.IntegerField()
     opis_predmeta = models.TextField()
     def __str__(self):
-        return '%s' % (self.naziv_predmeta)
+        return self.naziv_predmeta
 
 class LOG_upisa(models.Model):
     administrator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -46,4 +46,4 @@ class LOG_upisa(models.Model):
     status = models.CharField(max_length=1, choices=STATUSES, blank=True)
     vrijeme_odobrenja = models.DateTimeField('date published')
     def __str__(self):
-        return '%s' % (self.opis_odobrenja)
+        return self.opis_odobrenja
