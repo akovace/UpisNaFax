@@ -22,8 +22,9 @@ također administratori mogu upisati studenta u određeni smjer.
 # Prijavnica http://localhost:8000/prijavnica/
 
 Također, administratori mogu izbrisati druge administratore.
+# DELETE http://localhost:8000/korisnik/14/
 
 Ukoliko administrator odobri studenta za traženi smjer mora napisati razlog odobrenja te se
 mora znati u aplikaciji koji administrator je odobrio kojeg studenta i točno kada. U aplikaciji je
 sve transparentno te svi admistratori imaju uvid tko je koga odborio za upis.
-
+# POST http://localhost:8000/odobrenje/

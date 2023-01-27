@@ -13,8 +13,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from rest_framework import status
+from datetime import datetime
 
-# Registracija http://localhost:8000/registracija/
+# Registracija, nije potrabna autentifikacija http://localhost:8000/registracija/
 
 class Registracija(APIView):
     def post(self, request, *args, **kwargs):
@@ -42,7 +43,7 @@ class Registracija(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Administratori mogu brisati korisnike http://localhost:8000/korisnik/16/
+# Administratori mogu brisati korisnike DELETE http://localhost:8000/korisnik/16/
 
 class Korisnik(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -81,7 +82,7 @@ class Korisnik(APIView):
                 status=status.HTTP_200_OK
                 )
 
-# Prijavnica http://localhost:8000/prijavnica/
+# Prijavnica GET i POST http://localhost:8000/prijavnica/
 
 class PrijavnicaZaUpis(APIView):
     def get(self, request, *args, **kwargs):
@@ -137,6 +138,7 @@ class PrijavnicaZaUpis(APIView):
 
 
 # Smjer i pregled predmeta http://localhost:8000/vrstasmjera/
+#Unutar svakog smjera su vidljivi predmeti i injihovi opisi
 
 class VrstaSmjeraPregled(viewsets.ModelViewSet):
 
@@ -147,6 +149,7 @@ class VrstaSmjeraPregled(viewsets.ModelViewSet):
 
 #Pregled studenata i njihovih prijava http://localhost:8000/studentiprijave/
 class StudentiPrijave(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         user = User.objects.get(pk = request.user.id)
         if user.groups.filter(name = 'administrator').exists():
@@ -156,6 +159,59 @@ class StudentiPrijave(APIView):
         #queryset = User.objects.all()
         serializers = UserAdminSerializer(queryset, many=True)  
         return Response(serializers.data, status=200)
+
+# GET i POST http://localhost:8000/odobrenje/
+
+class Odobrenja(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(pk = request.user.id)
+        if user.groups.filter(name = 'administrator').exists():
+            logupisa = LOG_upisa.objects.all()        
+            serializers = LOG_upisaSerializer(logupisa, many=True)  
+            return Response(serializers.data, status=200)
+        else:
+            return Response(
+                {"res": "Nisi administrator"},
+                status=status.HTTP_200_OK
+                )
+
+    def post(self, request, *args, **kwargs):
+
+        user = User.objects.get(pk = request.user.id)
+        if user.groups.filter(name = 'administrator').exists():
+
+            provjeraLOGa = LOG_upisa.objects.filter(administrator = user.id, prijavnica = request.data.get('prijavnica'))
+            if provjeraLOGa.count() > 0:
+                return Response(
+                {"res": "zahtjev je vec obradjen"},
+                status=status.HTTP_200_OK
+                )
+
+
+            data = {
+                'administrator': user.id, 
+                'prijavnica': request.data.get('prijavnica'), 
+                'opis_odobrenja': request.data.get('opis_odobrenja'), 
+                'status': request.data.get('status'), 
+                'vrijeme_odobrenja': datetime.now()
+            }
+
+
+            serializer = LOG_upisaSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                updateprijavnica = Prijavnica.objects.filter(id = request.data.get('prijavnica')).update(status = request.data.get('status'))
+
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(
+                {"res": "Nisi administrator"},
+                status=status.HTTP_200_OK
+                )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -167,20 +223,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class PrijavnicaPregled(viewsets.ModelViewSet):
-
     serializer_class = PrijavnicaSerializer
     queryset = Prijavnica.objects.all()
     permission_classes = [IsAuthenticated]
-
 
 
 class Predmeti(viewsets.ModelViewSet):
@@ -189,7 +240,7 @@ class Predmeti(viewsets.ModelViewSet):
     queryset = Predmeti.objects.all()
     permission_classes = [IsAuthenticated]
 
-class LOG_upisa(viewsets.ModelViewSet):
+class Logupisa(viewsets.ModelViewSet):
 
     serializer_class = LOG_upisaSerializer
     queryset = LOG_upisa.objects.all()

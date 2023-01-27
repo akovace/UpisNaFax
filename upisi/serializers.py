@@ -38,6 +38,10 @@ class UserAdminSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'groups', 'prijave']
 
 
+class LOG_upisaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LOG_upisa
+        fields = ['id', 'administrator', 'prijavnica', 'opis_odobrenja', 'status', 'vrijeme_odobrenja']
 
 """
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -56,7 +60,3 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-class LOG_upisaSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = LOG_upisa
-        fields = ['id', 'administrator', 'prijavnica', 'opis_odobrenja', 'status', 'vrijeme_odobrenja']

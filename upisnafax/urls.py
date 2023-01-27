@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from upisi.views import Korisnik, StudentiPrijave, Registracija,PrijavnicaPregled, PrijavnicaZaUpis, UserViewSet, GroupViewSet, VrstaSmjeraPregled, Predmeti, LOG_upisa
+from upisi.views import Odobrenja, Korisnik, StudentiPrijave, Registracija,PrijavnicaPregled, PrijavnicaZaUpis, UserViewSet, GroupViewSet, VrstaSmjeraPregled, Predmeti, Logupisa
 
 # izvor za JWT
 # https://medium.com/django-rest/django-rest-framework-jwt-authentication-94bee36f2af8
@@ -33,7 +33,7 @@ router.register(r'groups', GroupViewSet)
 router.register(r'prijavnica1', PrijavnicaPregled, basename='PrijavnicaPregled')
 router.register(r'vrstasmjera', VrstaSmjeraPregled, basename='vrstasmjera-detail')
 router.register(r'predmeti', Predmeti, basename='predmeti-detail')
-router.register(r'logupisa', LOG_upisa, basename='LOG_upisa')
+router.register(r'logupisa', Logupisa, basename='logpisa')
 
 #router.register(r'product', ProductViewSet, basename='Product')
 #router.register(r'image', ImageViewSet, basename='Image')
@@ -47,7 +47,7 @@ urlpatterns = [
     path('registracija/', Registracija.as_view()),
     path('prijavnica/', PrijavnicaZaUpis.as_view(), name='prijavnica-detail'),
     path('studentiprijave/', StudentiPrijave.as_view(), name='studentiprijav-detail'),
-    #path('korisnik/', Korisnik.as_view()),
+    path('odobrenje/', Odobrenja.as_view()),
     path('korisnik/<int:user_id>/', Korisnik.as_view()),
     ]
 
