@@ -42,6 +42,44 @@ class Registracija(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Administratori mogu brisati korisnike http://localhost:8000/korisnik/16/
+
+class Korisnik(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, user_id):
+        '''
+        Helper method to get the object with given todo_id, and user_id
+        '''
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+
+    #def get(self, request, *args, **kwargs):
+    #    queryset = User.objects.all()
+    #    serializers = UsersSerializer(queryset, many=True)  
+    #    return Response(serializers.data, status=200)
+
+    def delete(self, request, user_id, *args, **kwargs):
+        prijavljeniuser = User.objects.get(pk = request.user.id)
+        if prijavljeniuser.groups.filter(name = 'administrator').exists():
+            user = self.get_object(user_id)
+            if not user:
+                return Response(
+                    {"res": "Object with user id does not exists"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                user.delete()
+            return Response(
+                {"res": "Object deleted!"},
+                status=status.HTTP_200_OK
+                )
+        else:
+            return Response(
+                {"res": "Nisi administrator"},
+                status=status.HTTP_200_OK
+                )
 
 # Prijavnica http://localhost:8000/prijavnica/
 

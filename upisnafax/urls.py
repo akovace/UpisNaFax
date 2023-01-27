@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from upisi.views import StudentiPrijave, Registracija,PrijavnicaPregled, PrijavnicaZaUpis, UserViewSet, GroupViewSet, VrstaSmjeraPregled, Predmeti, LOG_upisa
+from upisi.views import Korisnik, StudentiPrijave, Registracija,PrijavnicaPregled, PrijavnicaZaUpis, UserViewSet, GroupViewSet, VrstaSmjeraPregled, Predmeti, LOG_upisa
 
 # izvor za JWT
 # https://medium.com/django-rest/django-rest-framework-jwt-authentication-94bee36f2af8
@@ -47,6 +47,8 @@ urlpatterns = [
     path('registracija/', Registracija.as_view()),
     path('prijavnica/', PrijavnicaZaUpis.as_view(), name='prijavnica-detail'),
     path('studentiprijave/', StudentiPrijave.as_view(), name='studentiprijav-detail'),
+    #path('korisnik/', Korisnik.as_view()),
+    path('korisnik/<int:user_id>/', Korisnik.as_view()),
     ]
 
 if settings.DEBUG:
