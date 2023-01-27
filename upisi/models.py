@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from model_utils import Choices
+from django.contrib.auth.models import User
 
 class VrstaSmjera(models.Model):
     naziv_smjera = models.CharField(max_length=200)
@@ -9,7 +10,7 @@ class VrstaSmjera(models.Model):
         return self.naziv_smjera
 
 class Prijavnica(models.Model):
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name='prijave', on_delete=models.CASCADE)
     datum_rodjenja = models.DateTimeField()
     mjesto_rodjenja = models.CharField(max_length=200)
     zavrsena_skola = models.CharField(max_length=200)
@@ -26,11 +27,11 @@ class Prijavnica(models.Model):
 
     datum_kriranja = models.DateTimeField('date published')
     def __str__(self):
-        return self.student
+        return self.molba_za_upis_na_smjer
 
 class Predmeti(models.Model):
     naziv_predmeta = models.CharField(max_length=200)
-    smjer = models.ForeignKey(VrstaSmjera, on_delete=models.CASCADE)
+    smjer = models.ForeignKey(VrstaSmjera, related_name='predmeti', on_delete=models.CASCADE)
     ECTS = models.IntegerField()
     opis_predmeta = models.TextField()
     def __str__(self):

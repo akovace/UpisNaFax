@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+   <head>
+      <script>
+         function add()
+         {
+           var num1, num2, sum;
+           num1 = parseInt(document.getElementById("firstnumber").value);
+
+           sol = (num1 / 100) * 2;
+           paprika = (num1 / 100) * 0.4;
+           secer = (num1 / 100) * 0.1;
+           document.getElementById("sol").value = sol;
+           document.getElementById("paprika").value = paprika;
+           document.getElementById("secer").value = secer;
+         }
+      </script>
+   </head>
+   <body>
+<h1>Recept za kulen</h1>
+<p>Kulen se nadjeva u kulenice, tj. svinjsko slijepo crijevo.</p>
+<p>Za kulen birati kvalitetno meso, npr. but, plećka odnosno lopatica i drugo nemasno meso npr. krmenadla odnsno kare.</p>
+<p>U smjesu ide 2 - 2,2% soli, 0,3 - 0,4% ljute paprike od Tonce iz Rešetara (ako se želi jače ljuti kulen, ide 0,5%) te šaka šećera na 100kg mesa. Po ukusu se može staviti malo miksanog češnjaka. </p>
+<p>Sve začine staviti u vodu i dobro promješati te sve izliti na meso i dobro promješati. Kada se smjesa odvaja od ruku, tada je meso dobro izmješano. Pustiti smjesu da malo odstoji, probati te po ukusu ako je potrebno dodati još ljute paprike.</p>
+<p>Dobivenu smjesu nadjevati u kulenice te ih položiti u mrežicu ili čarape i zavezati te povješati u pušnicu. Kulenovi se mogu zavezati i samo špagom na slavonski tradicionalni način.</p>
+
+<h2>Kalkulator</h2>
+      <p>Količina mljevenog mesa: <input id="firstnumber">kg</p>
+      <button onclick="add()">IZRAČUNAJ</button>
+      <p> SOL = <input id="sol">kg</p>
+      <p> PAPRIKA = <input id="paprika">kg</p>
+      <p> ŠEĆER = <input id="secer">kg</p>
+
+   </body>
+</html>

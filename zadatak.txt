@@ -1,0 +1,29 @@
+Student se prvo mora registrirati sa podacima.
+# Registracija http://localhost:8000/registracija/
+
+Student prilikom prijave na fakultet mora popuniti formu koja se sastoji od sljedećih polja.
+također student se smije prijaviti na više smjerova kako bi se mogao negdje upisati.
+Student nakon upisivanja smjera na fakultetu ne može više mijenjati svoj smjer.
+Ukoliko je kvota popunjena student dobiva obavijest da je smjer popunjen, te ukoliko je smjer odobren student se upisuju u tekuću godinu na taj smjer.
+# Prijavnica http://localhost:8000/prijavnica/
+
+Administratori mogu kreirati nove administratore unutar aplikacije sa poljima.
+# Registracija http://localhost:8000/registracija/
+
+Svaki od smjerova ima svoje predmete koje student ima pravo vidjeti, 
+Potrebno je prikazati studentu smjer te predmete na uvid kako bi vidio kompletan sadržaj.
+# http://localhost:8000/vrstasmjera/
+
+
+Profesori (administrator) ima uvid u sve studente te njihove prijave
+# http://localhost:8000/studentiprijave/
+
+također administratori mogu upisati studenta u određeni smjer.
+# Prijavnica http://localhost:8000/prijavnica/
+
+Također, administratori mogu izbrisati druge administratore.
+
+Ukoliko administrator odobri studenta za traženi smjer mora napisati razlog odobrenja te se
+mora znati u aplikaciji koji administrator je odobrio kojeg studenta i točno kada. U aplikaciji je
+sve transparentno te svi admistratori imaju uvid tko je koga odborio za upis.
+
